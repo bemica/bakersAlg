@@ -2,7 +2,7 @@ defmodule Customer do
   def take_ticket(customer_num) do
     receive do
       {:ticket} ->
-        IO.puts("Customer #{customer_num} got ticket number #{num}")
+      #  IO.puts("Customer got a ticket")
         waitForServer(customer_num)
       {:finish} ->
         exit(:normal)
@@ -11,18 +11,19 @@ defmodule Customer do
 
   def waitForServer(customer_num) do
     receive do
-      {:serve, server_num, manager} ->
-        IO.puts("Customer #{customer_num} is now being served by #{server_num}")
-        askForTicket(customer_num, manager)
+      {:serve, server_num, manager, n, fibn} ->
+        IO.puts("Customer was told that fib of #{n} equals #{fibn}")
+        askForTicket(manager)
       {:finish} ->
         exit(:normal)
     end
   end
 
-  def askForTicket(customer_num, manager) do
+  def askForTicket(manager) do
     sleep_time = :rand.uniform(1000)
     :timer.sleep(sleep_time)
-    send(manager, {:request_ticket, customer_num}
-    take_ticket(customer_num)
+    IO.puts("asking for a ticket")
+    send(manager, {:request_ticket, self()})
+    take_ticket(self())
   end
 end

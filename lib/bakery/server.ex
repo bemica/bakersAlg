@@ -9,7 +9,7 @@ defmodule Server do
   end
 
   def serving(customer, manager) do
-    IO.puts("Now serving a customer")
+  #  IO.puts("Now serving a customer")
     n = :rand.uniform(40)
     fibn = fib(n)
   #IO.puts("computed fib of #{n} to be #{fibn}")
